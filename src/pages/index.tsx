@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { convertTextToSpeechAndFetchBlob } from '../utilities/audioConverter'; // 正しいパスを確認してください
+import { convertTextToSpeechAndFetchBlob } from '../utilities/audioConverter';
 
 const HomePage = () => {
   const [text, setText] = useState('');
