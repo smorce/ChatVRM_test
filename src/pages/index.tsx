@@ -3,6 +3,7 @@ import { convertTextToSpeechAndFetchBlob } from '../utilities/audioConverter';
 
 
 // BlobをBase64エンコーディングされたテキストに変換する関数
+// クライアントサイドのファイルだから動く
 const blobToBase64 = (blob: Blob): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
