@@ -1,1 +1,2 @@
-# ChatVRM_test
+# ちゃんと動くTypeScriptのサンプルプロジェクト
+ChatVRM_testで使ったもの
