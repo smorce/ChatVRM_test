@@ -1,6 +1,22 @@
 import React, { useState } from 'react';
 import { convertTextToSpeechAndFetchBlob } from '../utilities/audioConverter';
 
+
+// BlobをBase64エンコーディングされたテキストに変換する関数
+const blobToBase64 = (blob: Blob): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      resolve(reader.result as string);
+    };
+    reader.onerror = () => {
+      reject(new Error('BlobをBase64に変換中にエラーが発生しました'));
+    };
+    reader.readAsDataURL(blob);
+  });
+};
+
+
 const HomePage = () => {
   const [text, setText] = useState('');
 
@@ -10,6 +26,7 @@ const HomePage = () => {
       return;
     }
 
+
     try {
       const blob = await convertTextToSpeechAndFetchBlob(text);
       const audioUrl = URL.createObjectURL(blob);
@@ -18,6 +35,13 @@ const HomePage = () => {
       audioPlayer.play()
         .then(() => console.log("音声再生を開始しました。"))
         .catch(e => console.error("音声再生に失敗しました。", e));
+
+      // BlobをBase64エンコーディングされたテキストに変換し、コンソールに表示
+      blobToBase64(blob).then(base64 => {
+        console.log("Base64エンコーディングされた音声データ:", base64);
+      }).catch(error => {
+        console.error(error.message);
+      });
     } catch (error) {
       console.error("エラーが発生しました:", error);
     }
