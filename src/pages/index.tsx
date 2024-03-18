@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { convertTextToSpeechAndEncode } from '../utilities/audioConverter'; // 正しいパスを確認してください
+import { convertTextToSpeechAndFetchBlob } from '../utilities/audioConverter'; // 正しいパスを確認してください
 
 const HomePage = () => {
   const [text, setText] = useState('');
@@ -10,7 +10,17 @@ const HomePage = () => {
       return;
     }
 
-    await convertTextToSpeechAndEncode(text);
+    try {
+      const blob = await convertTextToSpeechAndFetchBlob(text);
+      const audioUrl = URL.createObjectURL(blob);
+      const audioPlayer = document.getElementById('audioPlayer') as HTMLAudioElement;
+      audioPlayer.src = audioUrl;
+      audioPlayer.play()
+        .then(() => console.log("音声再生を開始しました。"))
+        .catch(e => console.error("音声再生に失敗しました。", e));
+    } catch (error) {
+      console.error("エラーが発生しました:", error);
+    }
   };
 
   return (
@@ -23,6 +33,7 @@ const HomePage = () => {
         onChange={(e) => setText(e.target.value)}
       ></textarea>
       <button id="convertBtn" onClick={handleConvertButtonClick}>変換</button>
+      <audio id="audioPlayer" controls></audio>
     </div>
   );
 };
