@@ -1,2 +1,2 @@
 # ちゃんと動くTypeScriptのサンプルプロジェクト
-ChatVRM_testで使ったもの
+ChatVRM_testで使ったもので、vercelにデプロイして開発していた
