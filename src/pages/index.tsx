@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { convertTextToSpeechAndEncode } from '../utilities/audioConverter'; // 正しいパスを確認してください
 
 const HomePage = () => {
   const [text, setText] = useState('');
-  const [audioSrc, setAudioSrc] = useState('');
 
-  const convertTextToSpeech = () => {
-    // ここにテキストを音声に変換するロジックを実装します。
-    // 変換が完了したら、setAudioSrcを使用してaudioSrcの状態を更新します。
-    console.log('変換するテキスト:', text);
-    // 例: setAudioSrc('変換後の音声ファイルのURL');
+  const handleConvertButtonClick = async () => {
+    if (!text) {
+      alert('テキストを入力してください。');
+      return;
+    }
+
+    await convertTextToSpeechAndEncode(text);
   };
 
   return (
@@ -20,8 +22,7 @@ const HomePage = () => {
         value={text}
         onChange={(e) => setText(e.target.value)}
       ></textarea>
-      <button id="convertBtn" onClick={convertTextToSpeech}>変換</button>
-      {audioSrc && <audio id="audioPlayer" controls src={audioSrc}></audio>}
+      <button id="convertBtn" onClick={handleConvertButtonClick}>変換</button>
     </div>
   );
 };
